@@ -11,6 +11,7 @@ in order to read and write information from and to the Backend
 #include "Board.h"
 #include "Rook.h"
 #include "King.h"
+#include "Knight.h"
 
 using std::cout;
 using std::endl;
@@ -63,43 +64,59 @@ void main()
 	{
 		// should handle the string the sent from graphics
 		// according the protocol. Ex: e2e4           (move e2 to e4)
+		int errorType = 0;
 		char pieceAtSquare = '#';
-		pieceAtSquare = gameBoard.getPieceAtSquare(msgFromGraphics);
-		cout << "\n\n\n\n\n" << pieceAtSquare << "\n\n\n\n\n\n";
-		switch (pieceAtSquare)
-		{
-			case 'R':
-				//Rook r(msgFromGraphics);
-				break;
-			case 'N':
-				break;
-			case 'B':
-				break;
-			case 'K':
-				break;
-			case 'Q':
-				break;
-			case '#':
-				strcpy_s(msgToGraphics, "2");
-				p.sendMessageToGraphics(msgToGraphics);
-				break;
-		}
+		char pieceAtDestSquare = '#';
+		string oldMsgFromGraphics = msgFromGraphics;
 
+		pieceAtSquare = gameBoard.getPieceAtSquare(msgFromGraphics);
+		pieceAtDestSquare = gameBoard.getPieceAtSquare(msgFromGraphics.substr(2, 4));
+		cout << "\n\n\n\n\n" << pieceAtSquare << "\n\n\n\n\n\n";
+		if (pieceAtSquare == 'R' || pieceAtSquare == 'r')
+		{
+			Rook r(msgFromGraphics);
+			errorType = r.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
+		}
+		else if (pieceAtSquare == 'N' || pieceAtSquare == 'n')
+		{
+			Knight n(msgFromGraphics);
+			errorType = n.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
+		}
+		else if (pieceAtSquare == 'B')
+		{
+
+		}
+		else if (pieceAtSquare == 'K')
+		{
+
+		}
+		else if (pieceAtSquare == 'Q')
+		{
+
+		}
+		else if (pieceAtSquare == '#')
+		{
+			errorType = 2;
+		}
 		// YOUR CODE
 		strcpy_s(msgToGraphics, "YOUR CODE"); // msgToGraphics should contain the result of the operation
 
 		/******* JUST FOR EREZ DEBUGGING ******/
-		int r = rand() % 10; // just for debugging......
-		msgToGraphics[0] = (char)(1 + '0');
+		//int r = rand() % 10; // just for debugging......
+		msgToGraphics[0] = (char)(errorType + '0');
 		msgToGraphics[1] = 0;
 		/******* JUST FOR EREZ DEBUGGING ******/
-
 
 		// return result to graphics		
 		p.sendMessageToGraphics(msgToGraphics);
 
 		// get message from graphics
 		msgFromGraphics = p.getMessageFromGraphics();
+		if (errorType == 0 || errorType == 1)
+		{
+			gameBoard._turn = !(gameBoard._turn);
+			gameBoard.updateBoard(oldMsgFromGraphics);
+		}
 	}
 
 	p.close();

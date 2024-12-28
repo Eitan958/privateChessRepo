@@ -2,11 +2,11 @@
 #include <string>
 #include "Board.h"
 
-class Rook
+class Knight
 {
 public:
-	Rook(std::string currentSquare);
-	~Rook();
+	Knight(std::string currentSquare);
+	~Knight();
 	void setCurrentSquare(std::string newCurrentSquare);
 	std::string getCurrentSquare() const;
 	int checkMoveValid(int turn, char pieceAtSquare, char pieceAtDestSquare, std::string destSquare, Board gameBoard);
@@ -15,4 +15,3 @@ public:
 private:
 	std::string _currentSquare;
 };
-

@@ -6,7 +6,7 @@ class Board
 public:
 	Board(std::string board);
 	~Board();
-	void updateBoard(std::string newBoard);
+	void updateBoard(std::string moveMade);
 	std::string getBoard() const;
 	char getPieceAtSquare(std::string square);
 
@@ -16,6 +16,8 @@ public:
 
 	char _board[BOARD_SIZE][BOARD_SIZE];
 	std::string _boardString;
+	int _turn;
+
 
 };
 
