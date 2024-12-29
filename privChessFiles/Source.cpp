@@ -12,6 +12,7 @@ in order to read and write information from and to the Backend
 #include "Rook.h"
 #include "King.h"
 #include "Knight.h"
+#include "bishop.h"
 
 using std::cout;
 using std::endl;
@@ -82,9 +83,10 @@ void main()
 			Knight n(msgFromGraphics);
 			errorType = n.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
 		}
-		else if (pieceAtSquare == 'B')
+		else if (pieceAtSquare == 'B' || pieceAtSquare == 'b')
 		{
-
+			Bishop b(msgFromGraphics);
+			errorType = b.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
 		}
 		else if (pieceAtSquare == 'K')
 		{
