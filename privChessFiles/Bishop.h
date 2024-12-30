@@ -1,19 +1,16 @@
 #pragma once
-#include <string>
-#include "Board.h"
+#include "board.h"
 
-class King
+class Bishop
 {
 public:
-	King(std::string currentSquare);
-	~King();
+	Bishop(std::string currentSquare);
+	~Bishop();
 	void setCurrentSquare(std::string newCurrentSquare);
 	std::string getCurrentSquare() const;
 	int checkMoveValid(int turn, char pieceAtSquare, char pieceAtDestSquare, std::string destSquare, Board gameBoard);
-	int checkIfWhiteChecked(Board board, std::string moveMade);
-	int checkIfBlackChecked(Board board, std::string moveMade);
 
-
+	bool _isWayBlocked;
 private:
 	std::string _currentSquare;
 };

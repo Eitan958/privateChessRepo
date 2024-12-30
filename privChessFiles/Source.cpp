@@ -12,6 +12,9 @@ in order to read and write information from and to the Backend
 #include "Rook.h"
 #include "King.h"
 #include "Knight.h"
+#include "Bishop.h"
+#include "Queen.h"
+#include "Pawn.h"
 
 using std::cout;
 using std::endl;
@@ -82,21 +85,45 @@ void main()
 			Knight n(msgFromGraphics);
 			errorType = n.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
 		}
-		else if (pieceAtSquare == 'B')
+		else if (pieceAtSquare == 'B' || pieceAtSquare == 'b')
 		{
-
+			Bishop b(msgFromGraphics);
+			errorType = b.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
 		}
-		else if (pieceAtSquare == 'K')
+		else if (pieceAtSquare == 'K' || pieceAtSquare == 'k')
 		{
-
+			King k(msgFromGraphics);
+			errorType = k.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
 		}
-		else if (pieceAtSquare == 'Q')
+		else if (pieceAtSquare == 'Q' || pieceAtSquare == 'q')
 		{
-
+			Queen q(msgFromGraphics);
+			errorType = q.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
+		}
+		else if (pieceAtSquare == 'P' || pieceAtSquare == 'p')
+		{
+			Pawn p(msgFromGraphics);
+			errorType = p.checkMoveValid(gameBoard._turn, pieceAtSquare, pieceAtDestSquare, msgFromGraphics.substr(2, 4), gameBoard);
 		}
 		else if (pieceAtSquare == '#')
 		{
 			errorType = 2;
+		}
+
+		if (errorType == 0)
+		{
+			King whiteK("e8");
+			King blackK("e1");
+			if (gameBoard._turn == 0 && whiteK.checkIfWhiteChecked(gameBoard, msgFromGraphics)
+				|| gameBoard._turn != 0 && blackK.checkIfBlackChecked(gameBoard, msgFromGraphics))
+			{
+				errorType = 4;
+			}
+			else if (gameBoard._turn != 0 && whiteK.checkIfWhiteChecked(gameBoard, msgFromGraphics)
+				|| gameBoard._turn == 0 && blackK.checkIfBlackChecked(gameBoard, msgFromGraphics))
+			{
+				errorType = 1;
+			}
 		}
 		// YOUR CODE
 		strcpy_s(msgToGraphics, "YOUR CODE"); // msgToGraphics should contain the result of the operation

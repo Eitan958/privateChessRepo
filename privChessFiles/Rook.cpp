@@ -3,11 +3,13 @@
 Rook::Rook(std::string currentSquare)
 {
 	_currentSquare = currentSquare.substr(0, 2);
+	_isWayBlocked = false;
 }
 
 Rook::~Rook()
 {
 	_currentSquare = "";
+	_isWayBlocked = false;
 }
 
 void Rook::setCurrentSquare(std::string newCurrentSquare)
@@ -42,7 +44,7 @@ int Rook::checkMoveValid(int turn, char pieceAtSquare, char pieceAtDestSquare, s
 				square[1] = i + 48;
 				if (gameBoard.getPieceAtSquare(square) != '#')
 				{
-					isWayBlocked = true;
+					_isWayBlocked = true;
 				}
 			}
 		}
@@ -53,7 +55,7 @@ int Rook::checkMoveValid(int turn, char pieceAtSquare, char pieceAtDestSquare, s
 				square[1] = i + 48;
 				if (gameBoard.getPieceAtSquare(square) != '#')
 				{
-					isWayBlocked = true;
+					_isWayBlocked = true;
 				}
 			}
 		}
@@ -67,7 +69,7 @@ int Rook::checkMoveValid(int turn, char pieceAtSquare, char pieceAtDestSquare, s
 				square[0] = i;
 				if (gameBoard.getPieceAtSquare(square) != '#')
 				{
-					isWayBlocked = true;
+					_isWayBlocked = true;
 				}
 			}
 		}
@@ -78,12 +80,12 @@ int Rook::checkMoveValid(int turn, char pieceAtSquare, char pieceAtDestSquare, s
 				square[0] = i;
 				if (gameBoard.getPieceAtSquare(square) != '#')
 				{
-					isWayBlocked = true;
+					_isWayBlocked = true;
 				}
 			}
 		}
 	}
-	if (isWayBlocked)
+	if (_isWayBlocked)
 	{
 		errorCode = 6;
 		return errorCode;
